@@ -5,6 +5,7 @@ import com.exampel.myMail.model.MessageDto;
 import com.exampel.myMail.model.Message;
 import com.exampel.myMail.model.User;
 import com.exampel.myMail.repository.MessageRepository;
+import com.exampel.myMail.util.ServerUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -48,12 +49,12 @@ public class MessageService {
     }
 
     public String getAllIncomeMessagesWithTemplate(User user){
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/server/showIncomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
+        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showIncomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
         return response.getBody();
     }
 
     public String getAllOutcomeMessagesWithTemplate(User user){
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/server/showOutcomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
+        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "showOutcomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
         return response.getBody();
     }
 

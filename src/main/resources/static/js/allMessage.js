@@ -15,6 +15,9 @@ function showModal(url){
         success: function (response) {
             getMessages(JSON.parse(response));
             $('#exampleModal').modal();
+        },
+        error: function (response) {
+            alert("Не могу соедениться с сервером");
         }
     });
 }
