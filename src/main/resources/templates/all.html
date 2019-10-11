@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap JS/CSS -->
+    <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.css"
+          th:href="@{/bootstrap-4.3.1-dist/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/jquery-3.4.1.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
+
+    <!-- Custom JS/CSS -->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <script type="text/javascript" th:src="@{/js/all.js}"></script>
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+<body class="text-center" onload="loadUsersTable()">
+<div class="container-fluid">
+    <div class="d-flex justify-content-center">
+        <div class="col-2 mt-2">
+            <a href="/addMessage" class="btn btn-lg btn-primary btn-light mb-2">Написать сообщение</a>
+            <br>
+            <a href="/allMessage" class="btn btn-lg btn-primary btn-dark">Посмотреть сообщения</a>
+        </div>
+        <div class="col-10">
+            <p class="h2 mb-2 font-weight-normal">My messages</p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                </tr>
+                </thead>
+                <tbody id="allUsersTable">
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p id="labelMsgFrom"></p>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="msgContainer">
+                </div>
+                <div class="row">
+                    <div class="col-10 text-wrap">
+                        <input id="myContent" type="text" placeholder="Введите сообщение"/>
+                    </div>
+                    <div class="col-2">
+                        <input id="myRecipientLogin" type="text" hidden="hidden">
+                        <input type="button" onclick="sendMessageWithAjax()" value="Отправить">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

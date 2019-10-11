@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap JS/CSS -->
+    <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.css" th:href="@{/bootstrap-4.3.1-dist/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/jquery-3.4.1.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
+
+    <!-- Custom JS/CSS -->
+    <script type="text/javascript" th:src="@{/js/addMessage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    &lt;!&ndash; Optional JavaScript &ndash;&gt;
+    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;
+    &lt;!&ndash;<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>&ndash;&gt;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>-->
+</head>
+<body>
+    <form>
+        <h2>Введите сообщение</h2><br/>
+        Текст сообщения<br/>
+        <input id="myContent" type="text" name="content"><br/>
+        Логин получателя<br/>
+        <input id="myRecipientLogin" type="text" name="recipientLogin"><br/>
+        <input type="button" onclick="sendMessageWithAjax()" value="OK" name="Ok"><br>
+        <p id="info"></p>
+
+        <a href="/all">На главную</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap JS/CSS -->
+    <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.css" th:href="@{/bootstrap-4.3.1-dist/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/jquery-3.4.1.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
+
+    <!-- Custom JS/CSS -->
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+
+</head>
+<body class="text-center">
+    <div class="container">
+        <form>
+            <!--@thymesVar id="name" type="templates"*, ' + ${name} + '/-->
+            <a href="/register" class="col-2 btn btn-lg btn-primary btn-light mb-2">Регистрация</a>
+            <br>
+            <a href="/login" class="col-2 btn btn-lg btn-primary btn-dark">Войти</a>
+        </form>
+    </div>
+</body>
+</html>

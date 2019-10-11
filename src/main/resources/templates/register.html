@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap JS/CSS -->
+    <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.css" th:href="@{/bootstrap-4.3.1-dist/css/bootstrap.css}">
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/jquery-3.4.1.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
+
+    <!-- Custom JS/CSS -->
+    <script type="text/javascript" th:src="@{/js/register.js}"></script>
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+
+</head>
+<body class="text-center">
+    <div class="container">
+        <h4>Зарегистрируйтесь</h4>
+        <div class="d-flex justify-content-center">
+            <form>
+                <div class="mb-2">
+                    <input id="newLogin" type="text" name="login" placeholder="Login">
+                    <!--<input type="text" class="form-control" name="login" placeholder="Login">-->
+                </div>
+                <div class="col-4 mb-2">
+                    <input id="newPassword" type="password" name="password" placeholder="Password">
+                    <!--<input type="text" class="form-control" name="password" placeholder="Password">-->
+                </div>
+                <div class="col-4">
+                    <input type="button" onclick="addNewUserWithAjax()" value="OK" name="Ok"><br>
+                    <p id="info"></p>
+
+                    <a href="/greting">На главную</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

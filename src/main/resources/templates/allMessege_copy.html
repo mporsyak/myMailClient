@@ -1,0 +1,143 @@
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title></title>-->
+<!--</head>-->
+<!--<body onload="getMessages()">-->
+    <!--<table class="table table-striped table-responsive-md">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>name</th>-->
+            <!--<th>email</th>-->
+            <!--<th>Назначение</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody id="myTBody">-->
+        <!--&lt;!&ndash;/*@thymesVar id="users" type="templates"*/&ndash;&gt;-->
+        <!--&lt;!&ndash;<tr>-->
+            <!--/*@thymesVar id="name" type="templates"*/-->
+            <!--<td th:if="${messege.userRecip.login == authUserLogin}" th:text="'Входящее'"></td>-->
+            <!--<td th:if="${messege.userSender.login == authUserLogin}" th:text="'Исходящее'"></td>-->
+            <!--<td th:text="${messege.content}"></td>-->
+            <!--<td th:if="${messege.userRecip.login == authUserLogin}" th:text="'Отправитель: ' + ${messege.userSender.login} "></td>-->
+            <!--<td th:if="${messege.userSender.login == authUserLogin}" th:text="'Получатель: ' + ${messege.userRecip.login} "></td>-->
+        <!--</tr>&ndash;&gt;-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+    <!--<a href="/all">На главную</a>-->
+    <!--<script type="text/javascript">-->
+        <!--function getMessages(){-->
+            <!--let messages = JSON.parse(Get("/showMessages").responseText);-->
+            <!--var myTBody = document.getElementById("myTBody");-->
+            <!--for (i = 0; i < messages.length; i++){-->
+                <!--var tr = document.createElement("tr");-->
+                <!--myTBody.appendChild(tr);-->
+
+                <!--var tdName = document.createElement("td");-->
+                <!--tdName.innerHTML = messages[i].name;-->
+                <!--tr.appendChild(tdName);-->
+
+                <!--var tdEmail = document.createElement("td");-->
+                <!--tdEmail.innerHTML = messages[i].email;-->
+                <!--tr.appendChild(tdEmail);-->
+
+                <!--var tdGoal = document.createElement("td");-->
+                <!--tdGoal.innerHTML = messages[i].goal;-->
+                <!--tr.appendChild(tdGoal);-->
+            <!--}-->
+        <!--}-->
+
+        <!--function Get(requestUrl){-->
+            <!--let httpreq = new XMLHttpRequest();-->
+            <!--httpreq.open("GET", requestUrl, false);-->
+            <!--httpreq.send(null);-->
+
+            <!--return httpreq;-->
+        <!--}-->
+
+        <!--function post(requestUrl, body){-->
+            <!--let httpreq = new XMLHttpRequest();-->
+            <!--httpreq.open("POST", requestUrl, false);-->
+            <!--httpreq.setRequestHeader("Content-type", "application/json;charset=UTF-8")-->
+            <!--httpreq.send(body);-->
+
+            <!--return httpreq;-->
+        <!--}-->
+    <!--</script>-->
+
+    <!--<div class="col-10">-->
+        <!--<p class="h2 mb-2 font-weight-normal">My messages</p>-->
+        <!--<table class="table table-striped">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th scope="col">Name</th>-->
+                <!--<th scope="col">Email</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--&lt;!&ndash;/*@thymesVar id="users" type="templates"*/&ndash;&gt;-->
+            <!--<tr th:each="userSender,iter : ${userList}">-->
+                <!--&lt;!&ndash;//TODO: check cuurent user&ndash;&gt;-->
+                <!--&lt;!&ndash;/*@thymesVar id="name" type="templates"*/&ndash;&gt;-->
+                <!--<td th:onclick="'openModal(' + ${iter.index} + ')'" onclick="openModal()" th:text="${userSender.login}"></td>-->
+                <!--<td th:text="${userSender.password}"></td>-->
+
+                <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                <!--<div class="modal fade" th:id="'exampleModal' + ${iter.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+                    <!--<div class="modal-dialog modal-lg" role="document">-->
+                        <!--<div class="modal-content">-->
+                            <!--<div class="modal-header">-->
+                                <!--<h5 class="modal-title" id="exampleModalLabel">-->
+                                    <!--<p th:text="'Сообщения от ' + ${userSender.login}" />-->
+                                <!--</h5>-->
+                                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                    <!--<span aria-hidden="true">&times;</span>-->
+                                <!--</button>-->
+                            <!--</div>-->
+
+                            <!--&lt;!&ndash;...&ndash;&gt;-->
+                            <!--<body class="text-center">-->
+                            <!--<div class="container">-->
+                                <!--Сообщения от пользователя:-->
+
+                                <!--<div th:each="messege : ${userSender.list}">-->
+                                    <!--&lt;!&ndash;/*@thymesVar id="name" type="templates"*/&ndash;&gt;-->
+                                    <!--<p th:text="${messege.content}"></p>-->
+                                <!--</div>-->
+
+                                <!--&lt;!&ndash;<a href="/recipientLogin" class="col-4 btn btn-lg btn-primary btn-dark">Кому</a>&ndash;&gt;-->
+                                <!--<form th:action="@{/sendMessage}" method="post">-->
+                                    <!--<input hidden="hidden" type="text" class="form-control" name="userSenderLogin" th:value="${loggedUser}">-->
+                                    <!--<input hidden="hidden" type="text" class="form-control" name="userRecipLogin" th:value="${userSender.login}">-->
+                                    <!--<input type="text" class="form-control" name="messageContent" placeholder="Текст сообщения" required="" autofocus="">-->
+                                    <!--<button type="submit" class="btn btn-primary btn-light">Отправить сообщение</button>-->
+                                <!--</form>-->
+                            <!--</div>-->
+                            <!--</body>-->
+                        <!--</div>-->
+                        <!--<div class="modal-footer">-->
+                            <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</tr>-->
+            <!--</tbody>-->
+
+        <!--</table>-->
+    <!--</div>-->
+
+    <!--<script type="text/javascript">-->
+        <!--function openModal(index) {-->
+            <!--$('#exampleModal' + index).modal();-->
+        <!--}-->
+    <!--</script>-->
+
+
+
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
