@@ -1,12 +1,12 @@
 function sendMessageWithAjax() {
     let body = {};
-    body.myContent = document.getElementById("myContent").value;
-    body.myRecipLogin = document.getElementById("myRecipientLogin").value;
+    body.content = document.getElementById("myContent").value;
+    body.userRecip = document.getElementById("myRecipientLogin").value;
 
     $.ajax({
         method: 'POST',
         contentType: 'application/json;charset=UTF-8',
-        url: 'sendMessage',
+        url: 'client/sendMessage',
         data: JSON.stringify(body),
         success: function (response) {
             // document.getElementById("info").innerHTML = response;
@@ -14,7 +14,7 @@ function sendMessageWithAjax() {
         },
         error: function (response) {
             // document.getElementById("info").innerHTML = response.responseText;
-            $('#info').text(response.responseText);
+            $('#info').text("Ошибка");
         }
     });
 }

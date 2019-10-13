@@ -3,9 +3,12 @@ package com.exampel.myMail.service;
 
 import com.exampel.myMail.model.MessageDto;
 import com.exampel.myMail.model.Message;
+import com.exampel.myMail.model.NewMessageDto;
 import com.exampel.myMail.model.User;
 import com.exampel.myMail.repository.MessageRepository;
 import com.exampel.myMail.util.ServerUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -28,11 +31,6 @@ public class MessageService {
     public MessageService(RestTemplateBuilder templateBuilder){
         restTemplate = templateBuilder.build();
     }
-
-    public void addMessage(Message message){
-        messageRepository.save(message);}
-
-    public Message getMessage(String content){return messageRepository.findByContent(content);}
 
     private HttpEntity<String> getEntity(User user){
         HttpHeaders headers = new HttpHeaders();
@@ -57,6 +55,55 @@ public class MessageService {
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "showOutcomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
         return response.getBody();
     }
+
+    public String clientAddMessage(User user, NewMessageDto message){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String auth = user.getLogin() + ":" + user.getPassword();
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.set("Authorization", authHeader);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String messageJson = "";
+        try {
+            messageJson = objectMapper.writeValueAsString(message);
+        } catch (JsonProcessingException e) {
+        }
+
+        HttpEntity<String> entity = new HttpEntity<String>(messageJson, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(ServerUtils.SERVER_HOSTNAME + "server/sendMessage/", entity, String.class);
+        return response.getBody();
+    }
+
+    public String clientGetAllMessageByUser(User userSender, User userRecip){
+        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/allMessages/" + userRecip.getLogin(), HttpMethod.GET, getEntity(userSender), String.class);
+        return response.getBody();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public Message getMessage(String content){return messageRepository.findByContent(content);}
 
     public List<MessageDto> getAllIncomeMessages(String authUserLogin){
         return getAllDirectMessages(false, authUserLogin);
@@ -88,8 +135,6 @@ public class MessageService {
         return (List<Message>) messageRepository.findAll();
     }
 
-    public List<Message> getAllMessageByUser(User userSender, User userRecip){
-        return messageRepository.findByUserSenderAndUserRecip(userSender, userRecip);
-    }
+
 
 }

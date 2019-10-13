@@ -2,10 +2,10 @@ function loadUserMessages(user){
     $.ajax({
         method: 'GET',
         contentType: 'application/json;charset=UTF-8',
-        url: "allMessages/" + user,
+        url: "client/allMessages/" + user,
         data: null,
         success: function (response) {
-            buildMessageView(user, response);
+            buildMessageView(user, JSON.parse(response));
             openModal();
             document.getElementById("myRecipientLogin").value = user;
         }
@@ -77,16 +77,16 @@ function buildUserTable(users){
 
 function sendMessageWithAjax() {
     let body = {};
-    body.myContent = document.getElementById("myContent").value;
-    body.myRecipLogin = document.getElementById("myRecipientLogin").value;
+    body.content = document.getElementById("myContent").value;
+    body.userRecip = document.getElementById("myRecipientLogin").value;
 
     $.ajax({
         method: 'POST',
         contentType: 'application/json;charset=UTF-8',
-        url: 'sendMessage',
+        url: 'client/sendMessage',
         data: JSON.stringify(body),
         success: function (response) {
-            loadUserMessages(body.myRecipLogin);
+            loadUserMessages(body.userRecip);
         },
         error: function (response) {
         }
