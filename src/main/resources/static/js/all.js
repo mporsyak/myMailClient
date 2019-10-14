@@ -53,10 +53,10 @@ function loadUsersTable(){
     $.ajax({
         method: 'GET',
         contentType: 'application/json;charset=UTF-8',
-        url: "allUsers",
+        url: "client/allUsers",
         data: null,
         success: function (response) {
-            buildUserTable(response);
+            buildUserTable(JSON.parse(response));
         }
     });
 }

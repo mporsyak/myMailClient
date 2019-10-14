@@ -6,7 +6,7 @@ function addNewUserWithAjax() {
     $.ajax({
         method: 'POST',
         contentType: 'application/json;charset=UTF-8',
-        url: 'addUser',
+        url: 'client/addUser',
         data: JSON.stringify(body),
         success: function (response) {
             // document.getElementById("info").innerHTML = response;

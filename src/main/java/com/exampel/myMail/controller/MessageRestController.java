@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-public class ClientMessageRestController {
+public class MessageRestController {
 
     @Autowired
    private MessageService messageService;
