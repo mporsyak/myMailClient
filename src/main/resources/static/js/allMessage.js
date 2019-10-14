@@ -7,10 +7,14 @@ function showOutcome() {
 }
 
 function showModal(url){
+    var auth = localStorage.getItem("auth");
+    if (auth == null)
+        window.location.href = "/login";
+
     $.ajax({
         method: 'GET',
         contentType: 'application/json;charset=UTF-8',
-        url: url,
+        url: url + "/" + auth,
         data: null,
         success: function (response) {
             getMessages(JSON.parse(response));

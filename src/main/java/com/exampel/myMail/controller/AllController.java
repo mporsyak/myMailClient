@@ -1,19 +1,13 @@
 package com.exampel.myMail.controller;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
 @Controller
-//@ComponentScan("com.exampel.myMail.service")
 public class AllController { //TODO: server-side rendering and client-side rendering
-    @GetMapping("/greeting")
+    @GetMapping("/")
     public String greeting() {
         return "greeting";
     }

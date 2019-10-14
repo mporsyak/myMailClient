@@ -1,8 +1,12 @@
 function loadUserMessages(user){
+    var auth = localStorage.getItem("auth");
+    if (auth == null)
+        window.location.href = "/login";
+
     $.ajax({
         method: 'GET',
         contentType: 'application/json;charset=UTF-8',
-        url: "client/allMessages/" + user,
+        url: "client/allMessages/" + user + "/" + auth,
         data: null,
         success: function (response) {
             buildMessageView(user, JSON.parse(response));
@@ -50,13 +54,20 @@ function openModal() {
 }
 
 function loadUsersTable(){
+    var auth = localStorage.getItem("auth");
+    if (auth == null)
+        window.location.href = "/login";
+
     $.ajax({
         method: 'GET',
         contentType: 'application/json;charset=UTF-8',
-        url: "client/allUsers",
+        url: "client/allUsers/" + auth,
         data: null,
         success: function (response) {
             buildUserTable(JSON.parse(response));
+        },
+        error: function (response) {
+            alert("Ошибка");
         }
     });
 }
@@ -80,10 +91,14 @@ function sendMessageWithAjax() {
     body.content = document.getElementById("myContent").value;
     body.userRecip = document.getElementById("myRecipientLogin").value;
 
+    var auth = localStorage.getItem("auth");
+    if (auth == null)
+        window.location.href = "/login";
+
     $.ajax({
         method: 'POST',
         contentType: 'application/json;charset=UTF-8',
-        url: 'client/sendMessage',
+        url: 'client/sendMessage/' + auth,
         data: JSON.stringify(body),
         success: function (response) {
             loadUserMessages(body.userRecip);

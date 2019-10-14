@@ -3,10 +3,14 @@ function sendMessageWithAjax() {
     body.content = document.getElementById("myContent").value;
     body.userRecip = document.getElementById("myRecipientLogin").value;
 
+    var auth = localStorage.getItem("auth");
+    if (auth == null)
+        window.location.href = "/login";
+
     $.ajax({
         method: 'POST',
         contentType: 'application/json;charset=UTF-8',
-        url: 'client/sendMessage',
+        url: "client/sendMessage/" + auth,
         data: JSON.stringify(body),
         success: function (response) {
             // document.getElementById("info").innerHTML = response;

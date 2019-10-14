@@ -45,7 +45,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title>Войти</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -55,31 +55,20 @@
     <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
 
     <!-- Custom JS/CSS -->
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
 
-</head>
 
 <body>
 
 Вход в систему
-<!--<form>-->
-    <!--<h2>Введите сообщение</h2><br/>-->
-    <!--Текст сообщения<br/>-->
-    <!--<input id="myContent" type="text" name="content"><br/>-->
-    <!--Логин получателя<br/>-->
-    <!--<input id="myRecipientLogin" type="text" name="recipientLogin"><br/>-->
-    <!--<input type="button" onclick="sendMessage()" value="OK" name="Ok"><br>-->
-    <!--<p id="info"></p>-->
-
-    <!--<a href="/all">На главную</a>-->
-<!--</form>-->
-<form action="" method="post">
+<form>
     <div class="col-4 mb-2">
-        <input id="newLogin" type="text" name="login">
+        <input id="newLogin" type="text">
         <!--<input type="text" class="form-control" name="login" placeholder="Login">-->
     </div>
     <div class="col-4 mb-2">
-        <input id="newPassword" type="password" name="password">
+        <input id="newPassword" type="password">
         <!--<input type="text" class="form-control" name="password" placeholder="Password">-->
     </div>
     <div class="col-4">
@@ -87,7 +76,8 @@
         <!--<p id="info"></p>-->
 
         <!--<a href="/all">На главную</a>-->
-        <button type="submit" class="btn btn-primary">Войти</button>
+        <input type="button" onclick="loginWithAjax()" value="Войти" name="Ok"><br>
+        <p id="info"></p>
     </div>
 </form>
 </body>

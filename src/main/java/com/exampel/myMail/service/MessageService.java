@@ -38,25 +38,38 @@ public class MessageService {
         return entity;
     }
 
-    public String getAllIncomeMessagesWithTemplate(User user){
-        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showIncomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
-        return response.getBody();
-    }
-
-    public String getAllOutcomeMessagesWithTemplate(User user){
-        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showOutcomeMessages/" + user.getLogin(), HttpMethod.GET, getEntity(user), String.class);
-        return response.getBody();
-    }
-
-    public String clientAddMessage(User user, NewMessageDto message){
+    public String getAllIncomeMessagesWithTemplate(String auth){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String auth = user.getLogin() + ":" + user.getPassword();
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
+        String authHeader = "Basic " + auth;
         headers.set("Authorization", authHeader);
+
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showIncomeMessages", HttpMethod.GET, entity, String.class);
+        return response.getBody();
+    }
+
+    public String getAllOutcomeMessagesWithTemplate(String auth){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String authHeader = "Basic " + auth;
+        headers.set("Authorization", authHeader);
+
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showOutcomeMessages", HttpMethod.GET, entity, String.class);
+        return response.getBody();
+    }
+
+    public String clientAddMessage(NewMessageDto message, String auth){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String messageJson = "";
@@ -65,14 +78,26 @@ public class MessageService {
         } catch (JsonProcessingException e) {
         }
 
+        String authHeader = "Basic " + auth;
+        headers.set("Authorization", authHeader);
+
         HttpEntity<String> entity = new HttpEntity<String>(messageJson, headers);
 
         ResponseEntity<String> response = restTemplate.postForEntity(ServerUtils.SERVER_HOSTNAME + "server/sendMessage/", entity, String.class);
         return response.getBody();
     }
 
-    public String clientGetAllMessageByUser(User userSender, User userRecip){
-        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/allMessages/" + userRecip.getLogin(), HttpMethod.GET, getEntity(userSender), String.class);
+    public String clientGetAllMessageByUser(String userRecip, String auth){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String authHeader = "Basic " + auth;
+        headers.set("Authorization", authHeader);
+
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/allMessages/" + userRecip, HttpMethod.GET, entity, String.class);
         return response.getBody();
     }
 }

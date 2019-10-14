@@ -5,8 +5,6 @@ import com.exampel.myMail.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @RestController
 public class UserRestController {
 
@@ -18,9 +16,13 @@ public class UserRestController {
         return userService.clientAddUser(newUser);
     }
 
-    @GetMapping (path = "client/allUsers")
-    public String clientAllUsers(Principal principal) {
-        User user = userService.findByLogin(principal.getName());
-        return userService.clientGetAllUser(user);
+    @GetMapping (path = "client/allUsers/{auth}")
+    public String clientAllUsers(@PathVariable String auth) {
+        return userService.clientGetAllUser(auth);
+    }
+
+    @PostMapping (path = "client/login")
+    public String login(@RequestBody User user) {
+        return userService.login(user);
     }
 }
