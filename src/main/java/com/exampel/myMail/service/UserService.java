@@ -5,6 +5,7 @@ import com.exampel.myMail.model.User;
 import com.exampel.myMail.util.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.util.Pair;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -23,11 +24,31 @@ public class UserService {
         restTemplate = templateBuilder.build();
     }
 
-    public String clientAddUser(User user) {
+    private HttpHeaders getHeaders(){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        return headers;
+    }
+
+    private HttpHeaders getHeaders(String encodedAuthStr){
+        String authHeader = "Basic " + encodedAuthStr;
+        getHeaders().set("Authorization", authHeader);
+
+        return getHeaders();
+    }
+
+    private Pair<String, HttpHeaders> getHeaders(User user){
+        String auth = user.getLogin() + ":" + user.getPassword();
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+        String encodedAuthStr = new String(encodedAuth);
+        getHeaders(encodedAuthStr);
+
+        return new Pair<>(encodedAuthStr, getHeaders(encodedAuthStr));
+    }
+
+    public String clientAddUser(User user) {
         ObjectMapper objectMapper = new ObjectMapper();
         String userJson = "";
         try {
@@ -35,39 +56,25 @@ public class UserService {
         } catch (JsonProcessingException e) {
         }
 
-        HttpEntity<String> entity = new HttpEntity<String>(userJson, headers);
+        HttpEntity<String> entity = new HttpEntity<String>(userJson, getHeaders());
 
         ResponseEntity<String> response = restTemplate.postForEntity(ServerUtils.SERVER_HOSTNAME + "server/addUser", entity, String.class);
         return response.getBody();
     }
 
-    public String clientGetAllUser(String auth) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String authHeader = "Basic " + auth;
-        headers.set("Authorization", authHeader);
-
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
+    public String clientGetAllUser(String encodedAuthStr) {
+        HttpEntity<String> entity = new HttpEntity<String>(getHeaders(encodedAuthStr));
 
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/allUsers", HttpMethod.GET, entity, String.class);
         return response.getBody();
     }
 
     public String login(User user) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        Pair<String, HttpHeaders> pair = getHeaders(user);
 
-        String auth = user.getLogin() + ":" + user.getPassword();
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader);
-
-        HttpEntity<String> entity = new HttpEntity<String>( headers);
+        HttpEntity<String> entity = new HttpEntity<String>(pair.getValue());
 
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME, HttpMethod.GET, entity, String.class);
-        return new String(encodedAuth);
+        return pair.getKey();
     }
 }
