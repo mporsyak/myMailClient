@@ -1,21 +1,14 @@
 package com.exampel.myMail.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String login;
     private String email;
     private String password;
-
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userSender")
-    private List<Message> list;
 
     public User() {}
 
@@ -57,13 +50,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Message> getList() {
-        return list;
-    }
-
-    public void setList(List<Message> list) {
-        this.list = list;
     }
 }

@@ -3,10 +3,8 @@ package com.exampel.myMail.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
-
 @Controller
-public class AllController { //TODO: server-side rendering and client-side rendering
+public class AllController {
     @GetMapping("/")
     public String greeting() {
         return "greeting";
@@ -22,9 +20,8 @@ public class AllController { //TODO: server-side rendering and client-side rende
         return "register";
     }
 
-    @GetMapping(value = "/addMessage")//TODO: Stateless and statefull
-    public String addMessage(Principal principal){
-//        return new ModelAndView("/addMessage", "authUser", principal.getName());
+    @GetMapping(value = "/addMessage")
+    public String addMessage(){
         return "addMessage";
     }
 
