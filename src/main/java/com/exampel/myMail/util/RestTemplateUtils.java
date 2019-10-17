@@ -20,18 +20,20 @@ public class RestTemplateUtils {
     }
 
     public static HttpHeaders getHeaders(String encodedAuthStr){
-        String authHeader = "Basic " + encodedAuthStr;
-        getHeaders().set("Authorization", authHeader);
+        HttpHeaders headers = getHeaders();
 
-        return getHeaders();
+        String authHeader = "Basic " + encodedAuthStr;
+        headers.set("Authorization", authHeader);
+
+        return headers;
     }
 
     public static Pair<String, HttpHeaders> getHeaders(User user){
         String auth = user.getLogin() + ":" + user.getPassword();
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String encodedAuthStr = new String(encodedAuth);
-        getHeaders(encodedAuthStr);
+        HttpHeaders headers = getHeaders(encodedAuthStr);
 
-        return new Pair<>(encodedAuthStr, getHeaders(encodedAuthStr));
+        return new Pair<>(encodedAuthStr, headers);
     }
 }

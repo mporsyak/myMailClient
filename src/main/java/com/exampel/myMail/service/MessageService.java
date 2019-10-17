@@ -6,6 +6,7 @@ import com.exampel.myMail.util.RestTemplateUtils;
 import com.exampel.myMail.util.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class MessageService {
 
     private RestTemplate restTemplate;
 
+    @Autowired
     public MessageService(RestTemplateBuilder templateBuilder){
         restTemplate = templateBuilder.build();
     }
