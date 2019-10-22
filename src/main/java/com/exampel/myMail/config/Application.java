@@ -1,6 +1,5 @@
 package com.exampel.myMail.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -40,21 +39,17 @@ public class Application {
     }
 
     @Bean
+    @DependsOn(value = {"restTemplateBuilder"})
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        return restTemplateBuilder().build();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public HttpHeaders getHeaders(@Autowired(required = false) String encodedAuthStr){
+    public HttpHeaders getHeaders(){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        if (encodedAuthStr != null){
-            String authHeader = "Basic " + encodedAuthStr;
-            headers.set("Authorization", authHeader);
-        }
 
         return headers;
     }
