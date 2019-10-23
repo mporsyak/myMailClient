@@ -10,12 +10,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
@@ -42,15 +37,5 @@ public class Application {
     @DependsOn(value = {"restTemplateBuilder"})
     public RestTemplate restTemplate() {
         return restTemplateBuilder().build();
-    }
-
-    @Bean
-    @Scope(value = "prototype")
-    public HttpHeaders getHeaders(){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        return headers;
     }
 }

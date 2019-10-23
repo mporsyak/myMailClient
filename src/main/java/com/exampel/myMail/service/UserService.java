@@ -1,5 +1,6 @@
 package com.exampel.myMail.service;
 
+import com.exampel.myMail.config.AuthorizationHttpHeaders;
 import com.exampel.myMail.model.User;
 
 import com.exampel.myMail.util.ServerUtils;
@@ -19,9 +20,6 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private HttpHeaders httpHeaders;
-
     public String clientAddUser(User user) {
         ObjectMapper objectMapper = new ObjectMapper();
         String userJson = "";
@@ -30,15 +28,14 @@ public class UserService {
         } catch (JsonProcessingException e) {
         }
 
-        HttpEntity<String> entity = new HttpEntity<>(userJson, httpHeaders);
+        HttpEntity<String> entity = new HttpEntity<>(userJson);
 
         ResponseEntity<String> response = restTemplate.postForEntity(ServerUtils.SERVER_HOSTNAME + "server/addUser", entity, String.class);
         return response.getBody();
     }
 
     public String clientGetAllUser(String encodedAuthStr) {
-        String authHeader = "Basic " + encodedAuthStr;
-        httpHeaders.set("Authorization", authHeader);
+        HttpHeaders httpHeaders = new AuthorizationHttpHeaders(encodedAuthStr);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/allUsers", HttpMethod.GET, entity, String.class);
@@ -50,8 +47,7 @@ public class UserService {
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String encodedAuthStr = new String(encodedAuth);
 
-        String authHeader = "Basic " + encodedAuthStr;
-        httpHeaders.set("Authorization", authHeader);
+        HttpHeaders httpHeaders = new AuthorizationHttpHeaders(encodedAuthStr);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         restTemplate.exchange(ServerUtils.SERVER_HOSTNAME, HttpMethod.GET, entity, String.class);

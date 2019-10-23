@@ -1,6 +1,7 @@
 package com.exampel.myMail.service;
 
 
+import com.exampel.myMail.config.AuthorizationHttpHeaders;
 import com.exampel.myMail.model.NewMessageDto;
 import com.exampel.myMail.util.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,12 +17,8 @@ public class MessageService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private HttpHeaders httpHeaders;
-
     public String getAllIncomeMessagesWithTemplate(String encodedAuthStr){
-        String authHeader = "Basic " + encodedAuthStr;
-        httpHeaders.set("Authorization", authHeader);
+        HttpHeaders httpHeaders = new AuthorizationHttpHeaders(encodedAuthStr);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showIncomeMessages", HttpMethod.GET, entity, String.class);
@@ -29,8 +26,7 @@ public class MessageService {
     }
 
     public String getAllOutcomeMessagesWithTemplate(String encodedAuthStr){
-        String authHeader = "Basic " + encodedAuthStr;
-        httpHeaders.set("Authorization", authHeader);
+        HttpHeaders httpHeaders = new AuthorizationHttpHeaders(encodedAuthStr);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/showOutcomeMessages", HttpMethod.GET, entity, String.class);
@@ -45,8 +41,7 @@ public class MessageService {
         } catch (JsonProcessingException e) {
         }
 
-        String authHeader = "Basic " + encodedAuthStr;
-        httpHeaders.set("Authorization", authHeader);
+        HttpHeaders httpHeaders = new AuthorizationHttpHeaders(encodedAuthStr);
         HttpEntity<String> entity = new HttpEntity<>(messageJson, httpHeaders);
 
         ResponseEntity<String> response = restTemplate.postForEntity(ServerUtils.SERVER_HOSTNAME + "server/sendMessage/", entity, String.class);
@@ -54,8 +49,7 @@ public class MessageService {
     }
 
     public String clientGetAllMessageByUser(String userRecip, String encodedAuthStr){
-        String authHeader = "Basic " + encodedAuthStr;
-        httpHeaders.set("Authorization", authHeader);
+        HttpHeaders httpHeaders = new AuthorizationHttpHeaders(encodedAuthStr);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(ServerUtils.SERVER_HOSTNAME + "server/allMessages/" + userRecip, HttpMethod.GET, entity, String.class);
