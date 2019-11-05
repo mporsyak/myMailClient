@@ -20,3 +20,10 @@ function loginWithAjax() {
         }
     });
 }
+
+function authWithGoogle(auth) {
+    if (auth != 'null') {
+        localStorage.setItem("auth", auth);
+        window.location.href = "/all";
+    }
+}

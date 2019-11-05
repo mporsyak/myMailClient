@@ -10,7 +10,10 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.Charset;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
@@ -36,6 +39,9 @@ public class Application {
     @Bean
     @DependsOn(value = {"restTemplateBuilder"})
     public RestTemplate restTemplate() {
-        return restTemplateBuilder().build();
+        RestTemplate restTemplate = restTemplateBuilder().build();
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+
+        return restTemplate;
     }
 }
