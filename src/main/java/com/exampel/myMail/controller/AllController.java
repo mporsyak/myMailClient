@@ -28,7 +28,7 @@ public class AllController {
 
             if (result.equals("Добавлен новый пользователь") || result.equals("Пользователь " + newUser.getLogin() + " уже существует")){
                 String auth = userService.login(newUser);
-                modelAndView.setViewName("login");
+                modelAndView = new ModelAndView("login");
                 modelAndView.addObject("auth", auth);
             }
         }
@@ -64,5 +64,12 @@ public class AllController {
     @GetMapping (path = "/all")
     public String all() {
         return "all";
+    }
+
+    @GetMapping (path = "/myLogout")
+    public ModelAndView myLogout(){
+        ModelAndView modelAndView = new ModelAndView("greeting");
+        modelAndView.addObject("isLogout", true);
+        return modelAndView;
     }
 }

@@ -9,7 +9,7 @@ function showOutcome() {
 function showModal(url){
     var auth = localStorage.getItem("auth");
     if (auth == null)
-        window.location.href = "/login";
+        window.location.href = "/";
 
     $.ajax({
         method: 'GET',

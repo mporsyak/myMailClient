@@ -14,10 +14,11 @@
     <script type="text/javascript" th:src="@{/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
 
     <!-- Custom JS/CSS -->
+    <script type="text/javascript" th:src="@{/js/greeting.js}"></script>
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
 
 </head>
-<body class="text-center">
+<body class="text-center" th:onload="'deleteLoginInfo(\'' + ${isLogout} + '\')'">
     <div class="container">
         <form>
             <!--@thymesVar id="name" type="templates"*, ' + ${name} + '/-->

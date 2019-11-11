@@ -1,7 +1,7 @@
 function loadUserMessages(user){
     var auth = localStorage.getItem("auth");
     if (auth == null)
-        window.location.href = "/login";
+        window.location.href = "/";
 
     $.ajax({
         method: 'GET',
@@ -56,7 +56,7 @@ function openModal() {
 function loadUsersTable(){
     var auth = localStorage.getItem("auth");
     if (auth == null)
-        window.location.href = "/login";
+        window.location.href = "/";
 
     $.ajax({
         method: 'GET',
@@ -68,6 +68,7 @@ function loadUsersTable(){
         },
         error: function (response) {
             alert("Ошибка");
+            window.location.href = "/";
         }
     });
 }
@@ -93,7 +94,7 @@ function sendMessageWithAjax() {
 
     var auth = localStorage.getItem("auth");
     if (auth == null)
-        window.location.href = "/login";
+        window.location.href = "/";
 
     $.ajax({
         method: 'POST',
